@@ -56,7 +56,7 @@ class NewsAdapter(val mContext: Context, var articles: ArrayList<Articles>): Rec
         holder.txtTitle.text = data.title
         holder.txtDesc.text = data.description
 
-        Glide.with(mContext).load(data.urlToImage).into(holder.imgView)
+        Glide.with(mContext).load(data.urlToImage).placeholder(R.drawable.ic_launcher_background).placeholder(R.drawable.ic_launcher_background).into(holder.imgView)
 
         holder.mLayout.setOnClickListener {
 

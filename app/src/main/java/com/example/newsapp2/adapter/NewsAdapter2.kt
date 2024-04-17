@@ -50,7 +50,7 @@ class NewsAdapter2(private val mContext: MainActivity, var articles: List<NewsEn
         holder.txtTitle.text = data.title
         holder.txtDesc.text = data.description
 
-        Glide.with(mContext).load(data.imageUrl).into(holder.imgView)
+        Glide.with(mContext).load(data.imageUrl).placeholder(R.drawable.ic_launcher_background).into(holder.imgView)
 
         holder.mLayout.setOnClickListener {
 

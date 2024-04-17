@@ -32,7 +32,7 @@ class MainActivity2 : AppCompatActivity() {
 
         getData()
 
-        Glide.with(this).load(articles.urlToImage).into(imageView)
+        Glide.with(this).load(articles.urlToImage).placeholder(R.drawable.ic_launcher_background).into(imageView)
         title.text = articles.title
         desc.text = articles.description
         content.text = articles.content

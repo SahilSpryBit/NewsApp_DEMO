@@ -2,7 +2,10 @@ package com.example.newsapp2.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +25,7 @@ import com.example.newsapp2.network.RetrofitInstance
 import com.example.newsapp2.repo.NewsRepository
 import com.example.newsapp2.repo.NewsRoomRepo
 import com.example.newsapp2.viewModel.NewsViewModel
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.*
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -31,10 +35,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var newsViewModel: NewsViewModel
     lateinit var apiInterface: ApiInterface
     private lateinit var recyclerView: RecyclerView
+    private lateinit var searchBtn: Button
+    private lateinit var searchTxt: TextInputEditText
     var adapter: NewsAdapter? = null
     var currentPage = 1
     var isLoading: Boolean = false
     var mList: ArrayList<Articles> = ArrayList()
+
+    var newsTopic : String? = "latest"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         Log.e("Sahilll", "ONCREATEEEEEEEEEE")
 
         recyclerView = findViewById(R.id.recyclerView)
+        searchBtn = findViewById(R.id.searchBtn)
+        searchTxt = findViewById(R.id.edtsearch)
 
         apiInterface = RetrofitInstance.getRetrofit().create(ApiInterface::class.java)
 
@@ -51,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         isInternetAvailable { isAvailable ->
             if (isAvailable) {
-                fetchData()
+                fetchData(newsTopic!!)
             } else {
                 lifecycleScope.launch {
 
@@ -88,17 +98,48 @@ class MainActivity : AppCompatActivity() {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == mList!!.size - 1) {
                         //bottom of list!
                         currentPage++
-                        fetchData()
+                        fetchData(newsTopic!!)
                         isLoading = true
                     }
                 }
             }
         })
+
+        searchBtn.setOnClickListener {
+
+            if(searchTxt.text!!.isNotEmpty()){
+                currentPage = 1
+                mList.clear()
+                newsTopic = searchTxt.text.toString()
+                fetchData(newsTopic!!)
+            }
+        }
+
+        searchTxt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.isNullOrEmpty()){
+                    mList.clear()
+                    newsTopic = "latest"
+                    fetchData(newsTopic!!)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+
+        })
+
     }
 
-    fun fetchData() {
+    fun fetchData(newsTopic : String) {
         var newsRequest =
-            newsRequest("bitcoin", "a0acb282f2b640ec853cccbaf93ec6e3", currentPage, 10)
+            newsRequest(newsTopic, "a0acb282f2b640ec853cccbaf93ec6e3", currentPage, 10)
 
         newsViewModel.callNewsApi(NewsRepository(), apiInterface, newsRequest)
     }

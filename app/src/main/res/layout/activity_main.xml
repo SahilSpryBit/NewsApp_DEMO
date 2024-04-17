@@ -6,6 +6,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".view.MainActivity">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeWidth="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:startIconDrawable="@drawable/search_icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtsearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/searchview_bg"
+            android:text=""/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="search"
+            android:layout_marginRight="20dp" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
