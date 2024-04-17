@@ -7,7 +7,8 @@ To store data locally room database is used.
 
 
 
-Flow of app  : 
+Flow of app  :
+
 -> when we open app it will show list of latest news but if we want to search any other topic news we can simply write topic name in given field and click on button it will shw the list of given topic news
 
 -> when we clear the field it will automatically clear the list and give list of latest news 
