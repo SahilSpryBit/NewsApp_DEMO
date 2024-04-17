@@ -53,15 +53,19 @@ class NewsAdapter(val mContext: Context, var articles: ArrayList<Articles>): Rec
 
         var data = articles[position]
 
-        holder.txtTitle.text = data.title
-        holder.txtDesc.text = data.description
+        if(data.title!!.isNotEmpty() || data.description!!.isNotEmpty()){
+            holder.txtTitle.text = data.title
+            holder.txtDesc.text = data.description
 
-        Glide.with(mContext).load(data.urlToImage).placeholder(R.drawable.ic_launcher_background).placeholder(R.drawable.ic_launcher_background).into(holder.imgView)
+            Glide.with(mContext).load(data.urlToImage).placeholder(R.drawable.ic_launcher_background).placeholder(R.drawable.ic_launcher_background).into(holder.imgView)
 
-        holder.mLayout.setOnClickListener {
+            holder.mLayout.setOnClickListener {
 
-            mContext.startActivity(Intent(mContext, MainActivity2::class.java).putExtra("article_data", data))
+                mContext.startActivity(Intent(mContext, MainActivity2::class.java).putExtra("article_data", data))
+            }
         }
+
+
 
     }
 }

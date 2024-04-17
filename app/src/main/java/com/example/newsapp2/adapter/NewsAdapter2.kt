@@ -15,7 +15,8 @@ import com.example.newsapp2.entity.NewsEntity
 import com.example.newsapp2.view.MainActivity
 import com.example.newsapp2.view.MainActivity3
 
-class NewsAdapter2(private val mContext: MainActivity, var articles: List<NewsEntity>): RecyclerView.Adapter<NewsAdapter2.MyViewHolder>() {
+class NewsAdapter2(private val mContext: MainActivity, var articles: List<NewsEntity>) :
+    RecyclerView.Adapter<NewsAdapter2.MyViewHolder>() {
 
     inner class MyViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
@@ -47,15 +48,23 @@ class NewsAdapter2(private val mContext: MainActivity, var articles: List<NewsEn
 
         var data = articles[position]
 
-        holder.txtTitle.text = data.title
-        holder.txtDesc.text = data.description
+        if (data.title!!.isNotEmpty() || data.description!!.isNotEmpty()) {
+            holder.txtTitle.text = data.title
+            holder.txtDesc.text = data.description
 
-        Glide.with(mContext).load(data.imageUrl).placeholder(R.drawable.ic_launcher_background).into(holder.imgView)
+            Glide.with(mContext).load(data.imageUrl).placeholder(R.drawable.ic_launcher_background)
+                .into(holder.imgView)
 
-        holder.mLayout.setOnClickListener {
+            holder.mLayout.setOnClickListener {
 
-            MyApplication.fromRoom = true
-            mContext.startActivity(Intent(mContext, MainActivity3::class.java).putExtra("article_data", data).addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP))
+                MyApplication.fromRoom = true
+                mContext.startActivity(
+                    Intent(
+                        mContext,
+                        MainActivity3::class.java
+                    ).putExtra("article_data", data).addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP)
+                )
+            }
         }
 
     }
